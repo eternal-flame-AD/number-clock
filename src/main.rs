@@ -9,10 +9,10 @@ use std::{
 };
 use tokio::io::{AsyncReadExt, AsyncWriteExt};
 
-const FRAME_MINUS: [u8; 7] = [1 << 7 | 1, 1 << 7 | 1, 0, 0, 0, 0, b'-'];
-const FRAME_PLUS: [u8; 7] = [1 << 7 | 1, 1 << 7 | 1, 0, 0, 0, 0, b'+'];
+static FRAME_MINUS: [u8; 7] = [1 << 7 | 1, 1 << 7 | 1, 0, 0, 0, 0, b'-'];
+static FRAME_PLUS: [u8; 7] = [1 << 7 | 1, 1 << 7 | 1, 0, 0, 0, 0, b'+'];
 
-const PACKET_MINUS_800: [u8; 800 * 7] = const {
+static PACKET_MINUS_800: [u8; 800 * 7] = {
     let mut out = [0; 5600 / 7 * 7];
     let mut i = 0;
     while i < out.len() {
@@ -22,7 +22,7 @@ const PACKET_MINUS_800: [u8; 800 * 7] = const {
     out
 };
 
-const PACKET_PLUS_800: [u8; 800 * 7] = const {
+static PACKET_PLUS_800: [u8; 800 * 7] = {
     let mut out = [0; 5600 / 7 * 7];
     let mut i = 0;
     while i < out.len() {
@@ -215,10 +215,10 @@ async fn handle_connection(io: Upgraded) -> Result<(), Box<dyn std::error::Error
             &PACKET_PLUS_800[..7 * 200]
         } else if pv > sp + 400 {
             &PACKET_MINUS_800[..7 * 200]
-        } else if pv < sp - 10 {
-            &PACKET_PLUS_800[..7 * 10]
-        } else if pv > sp + 10 {
-            &PACKET_MINUS_800[..7 * 10]
+        } else if pv < sp - 100 {
+            &PACKET_PLUS_800[..7 * 100]
+        } else if pv > sp + 100 {
+            &PACKET_MINUS_800[..7 * 100]
         } else {
             &[]
         };
