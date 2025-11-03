@@ -1,0 +1,13 @@
+[package]
+name = "rs-play"
+version = "0.1.0"
+edition = "2024"
+
+
+[dependencies]
+base64 = "0.22"
+chrono = "0.4"
+reqwest = { version = "0.12", default-features = false }
+sha1 = { version = "0.10", default-features = false }
+tokio = { version = "1", features = ["net", "macros", "rt", "io-util"] }
+generic-array = { version = "=0.14.7" } 
